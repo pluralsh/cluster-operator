@@ -1,4 +1,6 @@
 REPO rabbitmq
 
 HELM charts/cluster-operator
+TF plural/terraform/*
 CRD plural/crds/* charts/cluster-operator
+RECIPE plural/recipes/*

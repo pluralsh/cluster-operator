@@ -31,7 +31,14 @@ cluster:
       cpu: 1
       memory: 1Gi
   override:
+    service:
+      metadata:
+        labels:
+          app.kubernetes.io/managed-by: Helm
     statefulSet:
+      metadata:
+        labels:
+          app.kubernetes.io/managed-by: Helm
       spec:
         template:
           spec:
