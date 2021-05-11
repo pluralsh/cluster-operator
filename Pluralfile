@@ -1,0 +1,4 @@
+REPO rabbitmq
+
+HELM charts/cluster-operator
+CRD plural/crds/* charts/cluster-operator
