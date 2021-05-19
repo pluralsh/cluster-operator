@@ -6,40 +6,40 @@ metadata:
 {{ include "cluster-operator.labels" . | indent 4 }}
 spec:
   name: rabbitmq
-  description: telemetry for forge's rabbitmq cluster
+  description: telemetry for plural's rabbitmq cluster
   timeslices: [30m, 1h, 2h, 1d]
   defaultTime: 30m
   labels:
-  - name: kubernetes_pod_name
+  - name: pod
     query:
-      query: rabbitmq_consumers{app_kubernetes_io_instance="{{ .Release.Name }}"}
-      label: kubernetes_pod_name
+      query: rabbitmq_consumers{namespace="{{ .Release.Namespace }}"}
+      label: pod
   graphs:
   - queries:
-    - query: sum(rabbitmq_connections{app_kubernetes_io_instance="{{ .Release.Name }}"})
+    - query: sum(rabbitmq_connections{namespace="{{ .Release.Namespace }}"})
       legend: connections
-    - query: sum(rabbitmq_channels{app_kubernetes_io_instance="{{ .Release.Name }}"})
+    - query: sum(rabbitmq_channels{namespace="{{ .Release.Namespace }}"})
       legend: channels
-    - query: sum(rabbitmq_consumers{app_kubernetes_io_instance="{{ .Release.Name }}"})
+    - query: sum(rabbitmq_consumers{namespace="{{ .Release.Namespace }}"})
       legend: consumers
     format: none
     name: Connection details
   - queries:
-    - query: sum(rabbitmq_queue_messages{app_kubernetes_io_instance="{{ .Release.Name }}"})
+    - query: sum(rabbitmq_queue_messages{namespace="{{ .Release.Namespace }}"})
       legend: messages
     format: none
     name: Messages
   - queries:
-    - query: min(rabbitmq_disk_space_available_bytes{kubernetes_pod_name=~"$kubernetes_pod_name"})
+    - query: min(rabbitmq_disk_space_available_bytes{pod=~"$pod"})
       legend: disk free
-    - query: min(rabbitmq_disk_space_available_limit_bytes{kubernetes_pod_name=~"$kubernetes_pod_name"})
+    - query: min(rabbitmq_disk_space_available_limit_bytes{pod=~"$pod"})
       legend: memory used
     format: bytes
     name: Disk utilization
   - queries:
-    - query: sum(rabbitmq_queue_process_memory_bytes{kubernetes_pod_name=~"$kubernetes_pod_name"}) by (kubernetes_pod_name)
+    - query: sum(rabbitmq_queue_process_memory_bytes{pod=~"$pod"}) by (pod)
       legend: process memory
-    - query: sum(rabbitmq_messages_bytes{kubernetes_pod_name=~"$kubernetes_pod_name"}) by (kubernetes_pod_name)
+    - query: sum(rabbitmq_messages_bytes{pod=~"$pod"}) by (pod)
       legend: message memory
     format: bytes
     name: Memory Utilization
