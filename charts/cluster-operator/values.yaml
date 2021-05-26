@@ -17,6 +17,7 @@ fullnameOverride: ""
 
 cluster:
   replicas: 2
+  image: gcr.io/pluralsh/rabbitmq:3.8.16-management
   rabbitmq:
     additionalConfig: |
       cluster_partition_handling = pause_minority
